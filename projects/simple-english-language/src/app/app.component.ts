@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { SimpleNavComponent } from './common/components';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet],
+    imports: [SimpleNavComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
