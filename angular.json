@@ -130,6 +130,21 @@
           }
         }
       }
+    },
+    "simple-language-api-server": {
+      "root": "projects/simple-language-api-server",
+      "sourceRoot": "projects/simple-language-api-server/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": "dist/api-server",
+            "browser": "projects/api-server/src/main.ts",
+            "tsConfig": "projects/api-server/tsconfig.app.json"
+          }
+        }
+      }
     }
   },
   "cli": {
