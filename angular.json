@@ -54,7 +54,6 @@
               }
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/cyan-orange.css",
               "projects/simple-english-language/src/styles.scss"
             ],
             "scripts": []

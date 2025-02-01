@@ -19,6 +19,7 @@ import { map, shareReplay } from 'rxjs/operators';
 })
 export class SimpleNavComponent {
     private breakpointObserver = inject(BreakpointObserver);
+    title = 'Simple Language App';
 
     isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
         map(result => result.matches),
