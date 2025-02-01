@@ -2,7 +2,7 @@
   "name": "simple-language-api-server",
   "version": "0.1.0",
   "description": "a simple private language api server",
-  "author": "macedoe@gmail.com",
+  "author": "Kingsley Ijomah",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
