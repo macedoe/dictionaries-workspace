@@ -5,7 +5,7 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 240px;
   background: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
 }
@@ -46,4 +46,9 @@
 
 .pad-title {
   padding: 0 16px;
+}
+
+.active {
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
 }
