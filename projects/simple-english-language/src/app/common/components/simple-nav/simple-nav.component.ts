@@ -9,6 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { ThemeService } from '../../services';
 
 @Component({
     selector: 'app-simple-nav',
@@ -29,6 +30,8 @@ import { map, shareReplay } from 'rxjs/operators';
 })
 export class SimpleNavComponent {
     private breakpointObserver = inject(BreakpointObserver);
+    public themeService = inject(ThemeService);
+
     title = 'Simple Language App';
 
     isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(

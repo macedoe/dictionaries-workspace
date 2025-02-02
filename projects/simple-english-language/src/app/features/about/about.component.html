@@ -1,1 +1,23 @@
-<p>about works!</p>
+<mat-card appearance="outlined">
+    <mat-card-header>
+        <mat-card-title>About</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>Version: 1.0.0</p>
+        <p>A simple Thesaurus word look up and English/Spanish Dictionary.</p>
+        <p>
+            Uses
+            <a href="https://dictionaryapi.com" target="_blank">dictionaryapi.com</a>
+            for the backend service.
+        </p>
+        <div class="theme-button-toggle">
+            <mat-button-toggle-group
+                [(value)]="themeService.theme"
+                #themeToggle="matButtonToggleGroup"
+                (change)="themeService.toggleTheme(themeToggle.value)">
+                <mat-button-toggle value="light">Light Theme</mat-button-toggle>
+                <mat-button-toggle value="dark">Dark Theme</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </mat-card-content>
+</mat-card>

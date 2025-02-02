@@ -3,15 +3,31 @@
 @use "@angular/material" as mat;
 
 html {
+    color-scheme: light;
     @include mat.theme(
         (
             color: (
                 primary: mat.$azure-palette,
-                tertiary: mat.$orange-palette,
-                theme-type: light
+                tertiary: mat.$orange-palette
             ),
             typography: Roboto,
             density: 0
+        )
+    );
+}
+
+.dark-theme {
+    color-scheme: dark;
+}
+
+.mat-mdc-raised-button {
+    @include mat.button-overrides(
+        (
+            protected-container-color: var(--mat-sys-primary),
+            protected-label-text-color: var(--mat-sys-on-primary),
+            protected-label-text-size: 1.3rem,
+            protected-container-shape: 10px,
+            protected-container-height: 48px,
         )
     );
 }

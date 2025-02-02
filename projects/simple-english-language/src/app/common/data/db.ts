@@ -8,8 +8,8 @@ export class SimpleLanguageDatabase extends Dexie {
     constructor() {
         super('SimpleLanguageDatabase');
         this.version(1).stores({
-            words: 'id',
-            translations: 'id'
+            words: '++itmId,id',
+            translations: '++itmId,id'
         });
     }
 }

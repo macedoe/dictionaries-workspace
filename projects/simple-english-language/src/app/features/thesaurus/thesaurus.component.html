@@ -1,1 +1,72 @@
-<p>thesaurus works!</p>
+<div class="thesaurus-header">
+    <h1>Dictionary & Thesaurus</h1>
+    <p>Enter a word to find its meaning and synonyms</p>
+</div>
+
+<form class="search-form" [formGroup]="thesaurusService.searchForm" (ngSubmit)="thesaurusService.search()">
+    <mat-form-field appearance="outline">
+        <mat-label>Search Word</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput formControlName="searchInput" />
+        @if (thesaurusService.searchForm.get('searchInput')?.value) {
+            <mat-icon matSuffix (click)="thesaurusService.clearSearchInput()">close</mat-icon>
+        }
+        @if (thesaurusService.searchForm.get('searchInput')?.hasError('required')) {
+            <mat-error>Word is required</mat-error>
+        }
+        @if (thesaurusService.searchForm.get('searchInput')?.hasError('tooManyTerms')) {
+            <mat-error>Too many terms</mat-error>
+        }
+    </mat-form-field>
+
+    <button mat-raised-button type="submit" [disabled]="!thesaurusService.searchForm.valid">Search</button>
+
+    @if (thesaurusService.thesaurusData) {
+        @for (entry of thesaurusService.thesaurusData; track entry.id) {
+            <mat-card class="search-results" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h3>{{ entry.id }}</h3>
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                        <h3>{{ entry.partOfSpeech }}</h3>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <h4>Definitions</h4>
+                    <mat-list>
+                        @for (definition of entry.definitions; track definition) {
+                            <mat-list-item>
+                                <p>{{ definition }}</p>
+                            </mat-list-item>
+                        }
+                    </mat-list>
+                    <h4>Synonyms</h4>
+                    <mat-list>
+                        @if (entry.synonyms.length > 0) {
+                            @for (synonym of entry.synonyms; track synonym) {
+                                <mat-list-item>
+                                    <p>{{ synonym }}</p>
+                                </mat-list-item>
+                            }
+                        } @else {
+                            <mat-list-item>
+                                <span>None</span>
+                            </mat-list-item>
+                        }
+                    </mat-list>
+                    @if (entry.antonyms.length > 0) {
+                        <h4>Antonyms</h4>
+                        <mat-list>
+                            @for (antonym of entry.antonyms; track antonym) {
+                                <mat-list-item>
+                                    <p>{{ antonym }}</p>
+                                </mat-list-item>
+                            }
+                        </mat-list>
+                    }
+                </mat-card-content>
+            </mat-card>
+        }
+    }
+</form>
