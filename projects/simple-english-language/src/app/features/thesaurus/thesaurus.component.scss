@@ -28,14 +28,49 @@
 
 .search-results {
     width: 100%;
-    margin-top: 1.2rem;
+    margin-top: 1.3rem;
     @include mat.list-overrides(
         (
-            list-item-one-line-container-height: 1.3rem
+            list-item-label-text-size: 16px,
+            list-item-one-line-container-height: 5rem
         )
     )
 }
 
+.search-results a {
+    @include mat.button-overrides(
+        (
+            text-label-text-size: 16px
+        )
+    )
+}
+
+.search-results .mat-mdc-card-title h3 {
+    margin: 5px auto;
+}
+
 .search-results h4 {
     margin: 0;
+}
+
+.search-results .mat-mdc-button {
+    justify-content: left !important;
+}
+
+.definitions-list ::ng-deep .mdc-list-item__primary-text {
+    overflow: hidden !important;
+    word-wrap: normal !important;
+    white-space: wrap !important;
+}
+
+.results-list {
+    @include mat.list-overrides(
+        (
+            list-item-one-line-container-height: 1.5rem
+        )
+    )
+}
+
+.results-list .mat-mdc-list-item {
+    padding-left: 3px;
 }

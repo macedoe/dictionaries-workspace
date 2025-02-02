@@ -34,19 +34,19 @@
                 </mat-card-header>
                 <mat-card-content>
                     <h4>Definitions</h4>
-                    <mat-list>
+                    <mat-list class="definitions-list">
                         @for (definition of entry.definitions; track definition) {
                             <mat-list-item>
-                                <p>{{ definition }}</p>
+                                <sup>{{$index + 1}}</sup>{{ definition }}
                             </mat-list-item>
                         }
                     </mat-list>
                     <h4>Synonyms</h4>
-                    <mat-list>
+                    <mat-list class="results-list">
                         @if (entry.synonyms.length > 0) {
                             @for (synonym of entry.synonyms; track synonym) {
                                 <mat-list-item>
-                                    <p>{{ synonym }}</p>
+                                    <a mat-button (click)="thesaurusService.onWordClick(synonym)">{{synonym}}</a>
                                 </mat-list-item>
                             }
                         } @else {
@@ -57,10 +57,10 @@
                     </mat-list>
                     @if (entry.antonyms.length > 0) {
                         <h4>Antonyms</h4>
-                        <mat-list>
+                        <mat-list class="results-list">
                             @for (antonym of entry.antonyms; track antonym) {
                                 <mat-list-item>
-                                    <p>{{ antonym }}</p>
+                                    <a mat-button (click)="thesaurusService.onWordClick(antonym)">{{antonym}}</a>
                                 </mat-list-item>
                             }
                         </mat-list>

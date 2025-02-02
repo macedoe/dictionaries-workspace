@@ -37,4 +37,14 @@ export class ThesaurusService {
         const data = await this.dictionaryService.getThesaurusEntry(searchInput);
         this.thesaurusData = data;
     }
+
+    async onWordClick(word: string) {
+        const wordParts = word.split(' ');
+        if (wordParts && wordParts.length > 0) {
+            this.searchForm.get('searchInput')?.setValue(wordParts[0]);
+        } else {
+            this.searchForm.get('searchInput')?.setValue(word);
+        }
+        await this.search();
+    }
 }
