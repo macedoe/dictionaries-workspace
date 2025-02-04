@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AboutComponent, HomeComponent, ThesaurusComponent, TranslationComponent } from './features';
+import { homeResolver } from './features/home/resolvers/home.resolver';
 
 export const routes: Routes = [
     {
@@ -11,7 +12,8 @@ export const routes: Routes = [
     {
         path: 'home',
         title: 'Home',
-        component: HomeComponent
+        component: HomeComponent,
+        resolve: [homeResolver]
     },
     {
         path: 'about',

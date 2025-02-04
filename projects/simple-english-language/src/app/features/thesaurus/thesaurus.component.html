@@ -34,13 +34,11 @@
                 </mat-card-header>
                 <mat-card-content>
                     <h4>Definitions</h4>
-                    <mat-list class="definitions-list">
+                    <div class="definitions-list">
                         @for (definition of entry.definitions; track definition) {
-                            <mat-list-item>
-                                <sup>{{$index + 1}}</sup>{{ definition }}
-                            </mat-list-item>
+                                <p><sup><b>{{$index + 1}}</b></sup>{{ definition }}</p>
                         }
-                    </mat-list>
+                    </div>
                     <h4>Synonyms</h4>
                     <mat-list class="results-list">
                         @if (entry.synonyms.length > 0) {

@@ -1,5 +1,25 @@
-.home-container {
-    height: 100%;
-    width: 100%;
-    padding: 0 20px;
+.home-header {
+    margin: 0 10px;
+    padding: 0;
+
+    h2 {
+        margin-bottom: 0;
+    }
+}
+
+.dictionary-history {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+}
+
+.dictionary-history-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dictionary-history-list > * {
+    flex: 1 1 auto;
 }

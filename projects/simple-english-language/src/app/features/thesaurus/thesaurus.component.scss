@@ -57,10 +57,8 @@
     justify-content: left !important;
 }
 
-.definitions-list ::ng-deep .mdc-list-item__primary-text {
-    overflow: hidden !important;
-    word-wrap: normal !important;
-    white-space: wrap !important;
+.definitions-list {
+    padding-left: 10px
 }
 
 .results-list {

@@ -1,3 +1,15 @@
-<div class="home-container">
-    <p>home works!</p>
+<div class="home-header">
+    <h2>History</h2>
+</div>
+
+<div class="dictionary-history">
+    <h3>Dictionary & Thesaurus</h3>
+
+    @if (homeService.allThesaurusEntries.length > 0) {
+        <div class="dictionary-history-list">
+            @for (entry of homeService.allThesaurusEntries; track entry) {
+                <a mat-button (click)="homeService.onWordClick(entry)">{{entry.id}}</a>
+            }
+        </div>
+    }
 </div>
