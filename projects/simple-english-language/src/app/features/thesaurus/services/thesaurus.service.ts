@@ -25,26 +25,22 @@ export class ThesaurusService {
 
     async search() {
         const searchInput = this.searchForm.get('searchInput')?.value;
-        const tooManyTerms = searchInput?.split(' ').length > 1;
-        if (!searchInput || tooManyTerms) {
-            this.thesaurusData = [];
-            if (tooManyTerms) {
-                this.searchForm.get('searchInput')?.setErrors({ tooManyTerms: true });
-            }
-            return;
-        }
+        const parsedSearchInput = this.parseSearchInput(searchInput);
 
-        const data = await this.dictionaryService.getThesaurusEntry(searchInput);
+        const data = await this.dictionaryService.getThesaurusEntry(parsedSearchInput);
         this.thesaurusData = data;
     }
 
     async onWordClick(word: string) {
-        const wordParts = word.split(' ');
-        if (wordParts && wordParts.length > 0) {
-            this.searchForm.get('searchInput')?.setValue(wordParts[0]);
-        } else {
-            this.searchForm.get('searchInput')?.setValue(word);
-        }
+        this.searchForm.get('searchInput')?.setValue(word);
         await this.search();
+    }
+
+    private parseSearchInput(input: string) {
+        const wordParts = input.split(' ');
+        if (wordParts.length === 1) {
+            return input;
+        }
+        return wordParts.join('-');
     }
 }

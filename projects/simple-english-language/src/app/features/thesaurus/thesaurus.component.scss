@@ -38,6 +38,7 @@
 }
 
 .search-results a {
+    z-index: 0;
     @include mat.button-overrides(
         (
             text-label-text-size: 16px

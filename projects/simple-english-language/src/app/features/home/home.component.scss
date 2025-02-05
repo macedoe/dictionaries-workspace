@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .home-header {
     margin: 0 10px;
     padding: 0;
@@ -18,8 +20,14 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 10px;
+    justify-content: flex-start;
 }
 
-.dictionary-history-list > * {
-    flex: 1 1 auto;
+.dictionary-history-list a {
+    @include mat.button-overrides(
+        (
+            text-label-text-size: 16px,
+            text-container-height: 24px
+        )
+    )
 }
