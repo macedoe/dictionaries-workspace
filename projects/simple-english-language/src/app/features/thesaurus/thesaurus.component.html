@@ -4,25 +4,27 @@
 </div>
 
 <form class="search-form" [formGroup]="thesaurusService.searchForm" (ngSubmit)="thesaurusService.search()">
-    <mat-form-field appearance="outline">
-        <mat-label>Search Word</mat-label>
-        <mat-icon matPrefix>search</mat-icon>
-        <input matInput formControlName="searchInput" />
-        @if (thesaurusService.searchForm.get('searchInput')?.value) {
-            <mat-icon matSuffix (click)="thesaurusService.clearSearchInput()">close</mat-icon>
-        }
-        @if (thesaurusService.searchForm.get('searchInput')?.hasError('required')) {
-            <mat-error>Word is required</mat-error>
-        }
-        @if (thesaurusService.searchForm.get('searchInput')?.hasError('tooManyTerms')) {
-            <mat-error>Too many terms</mat-error>
-        }
-    </mat-form-field>
+    <div class="search-controls">
+        <mat-form-field appearance="outline">
+            <mat-label>Search Word</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput formControlName="searchInput" />
+            @if (thesaurusService.searchForm.get('searchInput')?.value) {
+                <mat-icon matSuffix (click)="thesaurusService.clearSearchInput()">close</mat-icon>
+            }
+            @if (thesaurusService.searchForm.get('searchInput')?.hasError('required')) {
+                <mat-error>Word is required</mat-error>
+            }
+            @if (thesaurusService.searchForm.get('searchInput')?.hasError('tooManyTerms')) {
+                <mat-error>Too many terms</mat-error>
+            }
+        </mat-form-field>
+    
+        <button mat-raised-button type="submit" [disabled]="!thesaurusService.searchForm.valid">Search</button>
+    </div>
 
-    <button mat-raised-button type="submit" [disabled]="!thesaurusService.searchForm.valid">Search</button>
-
-    @if (thesaurusService.thesaurusData) {
-        @for (entry of thesaurusService.thesaurusData; track entry.id) {
+    @if (thesaurusService.thesaurusData()) {
+        @for (entry of thesaurusService.thesaurusData(); track $index) {
             <mat-card class="search-results" appearance="outlined">
                 <mat-card-header>
                     <mat-card-title>
@@ -35,14 +37,14 @@
                 <mat-card-content>
                     <h4>Definitions</h4>
                     <div class="definitions-list">
-                        @for (definition of entry.definitions; track definition) {
+                        @for (definition of entry.definitions; track $index) {
                                 <p><sup><b>{{$index + 1}}</b></sup>{{ definition }}</p>
                         }
                     </div>
                     <h4>Synonyms</h4>
                     <mat-list class="results-list">
                         @if (entry.synonyms.length > 0) {
-                            @for (synonym of entry.synonyms; track synonym) {
+                            @for (synonym of entry.synonyms; track $index) {
                                 <mat-list-item>
                                     <a mat-button (click)="thesaurusService.onWordClick(synonym)">{{synonym}}</a>
                                 </mat-list-item>
@@ -56,7 +58,7 @@
                     @if (entry.antonyms.length > 0) {
                         <h4>Antonyms</h4>
                         <mat-list class="results-list">
-                            @for (antonym of entry.antonyms; track antonym) {
+                            @for (antonym of entry.antonyms; track $index) {
                                 <mat-list-item>
                                     <a mat-button (click)="thesaurusService.onWordClick(antonym)">{{antonym}}</a>
                                 </mat-list-item>

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThesaurusResponse } from '../../../common/interfaces';
 import { DictionaryService } from '../../../common/services';
@@ -7,17 +7,14 @@ import { DictionaryService } from '../../../common/services';
     providedIn: 'root'
 })
 export class ThesaurusService {
-    searchForm: FormGroup;
-    thesaurusData: ThesaurusResponse[] = [];
+    private dictionaryService = inject(DictionaryService);
+    private formBuilder = inject(FormBuilder);
 
-    constructor(
-        formBuilder: FormBuilder,
-        private dictionaryService: DictionaryService
-    ) {
-        this.searchForm = formBuilder.group({
-            searchInput: ['', Validators.required]
-        });
-    }
+    searchForm: FormGroup = this.formBuilder.group({
+        searchInput: ['', Validators.required]
+    });
+
+    thesaurusData = signal<ThesaurusResponse[]>([]);
 
     clearSearchInput() {
         this.searchForm.get('searchInput')?.setValue('');
@@ -28,7 +25,7 @@ export class ThesaurusService {
         const parsedSearchInput = this.parseSearchInput(searchInput);
 
         const data = await this.dictionaryService.getThesaurusEntry(parsedSearchInput);
-        this.thesaurusData = data;
+        this.thesaurusData.set(data);
     }
 
     async onWordClick(word: string) {

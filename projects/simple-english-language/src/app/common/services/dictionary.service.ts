@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { db } from '../data/db';
@@ -9,14 +9,18 @@ import { ThesaurusResponse, TranslationResponse } from '../interfaces';
     providedIn: 'root'
 })
 export class DictionaryService {
-    constructor(private http: HttpClient) {}
+    private http = inject(HttpClient);
 
-    async getAllThesaurusEntries(): Promise<ThesaurusResponse[]> {
-        return db.words.toArray();
+    async getAllThesaurusEntries(limit: number = 0): Promise<ThesaurusResponse[]> {
+        if (limit === 0) {
+            return await db.words.toArray();
+        } else {
+            return (await db.words.toArray()).slice(0, limit);
+        }
     }
 
     async getAllSpanishTranslations(): Promise<TranslationResponse[]> {
-        return db.translations.toArray();
+        return await db.translations.toArray();
     }
 
     async getThesaurusEntry(word: string): Promise<ThesaurusResponse[]> {

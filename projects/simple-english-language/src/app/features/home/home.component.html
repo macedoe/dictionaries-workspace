@@ -1,14 +1,24 @@
 <div class="home-header">
-    <h2>History</h2>
+    <h2>Recent History</h2>
 </div>
 
 <div class="dictionary-history">
-    <h3>Dictionary & Thesaurus</h3>
+    <div class="history-header">
+        <h3>Dictionary & Thesaurus</h3>
+    </div>
 
-    @if (homeService.allThesaurusEntries.length > 0) {
+    @if (homeService.allThesaurusEntries().length > 0) {
         <div class="dictionary-history-list">
-            @for (entry of homeService.allThesaurusEntries; track entry) {
-                <a mat-button (click)="homeService.onWordClick(entry)">{{entry.id}}</a>
+            @for (entry of homeService.allThesaurusEntries(); track entry) {
+                <a mat-button (click)="homeService.onWordClick(entry)">{{ entry.id }}</a>
+            }
+
+            @if (homeService.pageSize() <= homeService.allThesaurusEntries().length) {
+                <a mat-button class="load-more-definitions" (click)="homeService.onClickMoreDefinitions()"><u>load more</u></a>
+            }
+
+            @if (homeService.pageSize() > DEFAULT_PAGE_SIZE) {
+                <a mat-button class="load-more-definitions" (click)="homeService.onResetPageSize()"><u>reset</u></a>
             }
         </div>
     }

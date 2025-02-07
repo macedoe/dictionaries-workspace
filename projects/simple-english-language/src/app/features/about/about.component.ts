@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { ThemeService } from '../../common/services';
@@ -10,5 +10,5 @@ import { ThemeService } from '../../common/services';
     styleUrl: './about.component.scss'
 })
 export class AboutComponent {
-    constructor(public themeService: ThemeService) {}
+    public themeService = inject(ThemeService);
 }

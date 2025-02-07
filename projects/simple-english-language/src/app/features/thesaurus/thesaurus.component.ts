@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -15,5 +15,5 @@ import { ThesaurusService } from './services/thesaurus.service';
     styleUrl: './thesaurus.component.scss'
 })
 export class ThesaurusComponent {
-    constructor(public thesaurusService: ThesaurusService) {}
+    public thesaurusService = inject(ThesaurusService);
 }

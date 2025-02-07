@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build simple-english-language --base-href ./ --configuration production",
-    "watch": "ng build simple-english-language --watch --configuration development",
+    "build": "ng build --base-href ./ --configuration production",
+    "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
   },
@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^19.1.4",
     "@angular/platform-browser-dynamic": "^19.1.4",
     "@angular/router": "^19.1.4",
+    "@ngneat/until-destroy": "^10.0.0",
     "dexie": "^4.0.11",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
