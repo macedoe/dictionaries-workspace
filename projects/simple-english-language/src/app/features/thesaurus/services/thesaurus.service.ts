@@ -24,7 +24,7 @@ export class ThesaurusService {
         const searchInput = this.searchForm.get('searchInput')?.value;
         const parsedSearchInput = this.parseSearchInput(searchInput);
 
-        const data = await this.dictionaryService.getThesaurusEntry(parsedSearchInput);
+        const data = await this.dictionaryService.getDictionaryEntry(parsedSearchInput);
         this.thesaurusData.set(data);
     }
 

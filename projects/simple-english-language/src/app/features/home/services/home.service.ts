@@ -27,7 +27,7 @@ export class HomeService {
         const currentPageSize = this.pageSize();
         if (this.allThesaurusEntries().length >= currentPageSize && !reset) return;
 
-        const thesaurusEntries = await this.dictionaryService.getAllThesaurusEntries();
+        const thesaurusEntries = await this.dictionaryService.getAllDictionaryEntries();
 
         let count = 0;
         const uniqueEntries: ThesaurusResponse[] = [];

@@ -23,6 +23,14 @@ export class DictionaryService {
         return await db.translations.toArray();
     }
 
+    async getAllDictionaryEntries(limit: number = 0): Promise<ThesaurusResponse[]> {
+        if (limit === 0) {
+            return await db.dictionary.toArray();
+        } else {
+            return (await db.dictionary.toArray()).slice(0, limit);
+        }
+    }
+
     async getThesaurusEntry(word: string): Promise<ThesaurusResponse[]> {
         let thesaurusEntries = (await db.words.filter(w => w.id.includes(word)).toArray()) as ThesaurusResponse[] | [];
         if (thesaurusEntries.length || 0 > 0) {
@@ -41,6 +49,16 @@ export class DictionaryService {
         const translationResponse = await lastValueFrom(this.apiGet<TranslationResponse[]>(`spanish/${word}`));
         await db.translations.bulkAdd(translationResponse);
         return translationResponse;
+    }
+
+    async getDictionaryEntry(word: string): Promise<ThesaurusResponse[]> {
+        let dictionary = (await db.dictionary.filter(d => d.id === word).toArray()) as ThesaurusResponse[] | [];
+        if (dictionary.length > 0) {
+            return dictionary;
+        }
+        const dictionaryResponse = await lastValueFrom(this.apiGet<ThesaurusResponse[]>(`dictionary/${word}`));
+        await db.dictionary.bulkAdd(dictionaryResponse);
+        return dictionaryResponse;
     }
 
     private apiGet<T>(urlSegment: string): Observable<T> {
