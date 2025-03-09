@@ -19,7 +19,7 @@
                 <mat-error>Too many terms</mat-error>
             }
         </mat-form-field>
-    
+
         <button mat-raised-button type="submit" [disabled]="!thesaurusService.searchForm.valid">Search</button>
     </div>
 
@@ -38,7 +38,12 @@
                     <h4>Definitions</h4>
                     <div class="definitions-list">
                         @for (definition of entry.definitions; track $index) {
-                                <p><sup><b>{{$index + 1}}</b></sup>{{ definition }}</p>
+                            <p>
+                                <sup>
+                                    <b>{{ $index + 1 }}</b>
+                                </sup>
+                                {{ definition }}
+                            </p>
                         }
                     </div>
                     <h4>Synonyms</h4>
@@ -46,7 +51,9 @@
                         @if (entry.synonyms.length > 0) {
                             @for (synonym of entry.synonyms; track $index) {
                                 <mat-list-item>
-                                    <a mat-button (click)="thesaurusService.onWordClick(synonym)">{{synonym}}</a>
+                                    <a mat-button (click)="thesaurusService.onWordClick(synonym)" role="presentation">
+                                        {{ synonym }}
+                                    </a>
                                 </mat-list-item>
                             }
                         } @else {
@@ -60,7 +67,7 @@
                         <mat-list class="results-list">
                             @for (antonym of entry.antonyms; track $index) {
                                 <mat-list-item>
-                                    <a mat-button (click)="thesaurusService.onWordClick(antonym)">{{antonym}}</a>
+                                    <a mat-button (click)="thesaurusService.onWordClick(antonym)" role="presentation">{{ antonym }}</a>
                                 </mat-list-item>
                             }
                         </mat-list>

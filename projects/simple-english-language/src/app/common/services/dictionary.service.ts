@@ -3,13 +3,39 @@ import { inject, Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { db } from '../data/db';
-import { ThesaurusResponse, TranslationResponse } from '../interfaces';
+import { DictionaryEntry, ThesaurusResponse, TranslationResponse } from '../interfaces';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DictionaryService {
     private http = inject(HttpClient);
+
+    private get apiUrl(): string {
+        let apiUrl = environment.apiUrl;
+        if (!apiUrl) {
+            throw new Error('API URL is not set');
+        }
+        if (!apiUrl.endsWith('/')) {
+            apiUrl += '/';
+        }
+        return apiUrl;
+    }
+
+    private get freeDictionaryUrl(): string {
+        let freeDictionaryUrl = environment.freeDictionaryApi.url;
+        if (!freeDictionaryUrl) {
+            throw new Error('Free Dictionary URL is not set');
+        }
+        if (!freeDictionaryUrl.endsWith('/')) {
+            freeDictionaryUrl += '/';
+        }
+        return freeDictionaryUrl;
+    }
+
+    private apiGet<T>(urlSegment: string): Observable<T> {
+        return this.http.get<T>(`${this.apiUrl}${urlSegment}`);
+    }
 
     async getAllThesaurusEntries(limit: number = 0): Promise<ThesaurusResponse[]> {
         if (limit === 0) {
@@ -32,7 +58,7 @@ export class DictionaryService {
     }
 
     async getThesaurusEntry(word: string): Promise<ThesaurusResponse[]> {
-        let thesaurusEntries = (await db.words.filter(w => w.id.includes(word)).toArray()) as ThesaurusResponse[] | [];
+        const thesaurusEntries = (await db.words.filter(w => w.id.includes(word)).toArray()) as ThesaurusResponse[] | [];
         if (thesaurusEntries.length || 0 > 0) {
             return thesaurusEntries;
         }
@@ -42,7 +68,7 @@ export class DictionaryService {
     }
 
     async getSpanishTranslation(word: string): Promise<TranslationResponse[]> {
-        let translations = (await db.translations.filter(t => t.id === word).toArray()) as TranslationResponse[] | [];
+        const translations = (await db.translations.filter(t => t.id === word).toArray()) as TranslationResponse[] | [];
         if (translations.length > 0) {
             return translations;
         }
@@ -52,7 +78,7 @@ export class DictionaryService {
     }
 
     async getDictionaryEntry(word: string): Promise<ThesaurusResponse[]> {
-        let dictionary = (await db.dictionary.filter(d => d.id === word).toArray()) as ThesaurusResponse[] | [];
+        const dictionary = (await db.dictionary.filter(d => d.id === word).toArray()) as ThesaurusResponse[] | [];
         if (dictionary.length > 0) {
             return dictionary;
         }
@@ -61,18 +87,13 @@ export class DictionaryService {
         return dictionaryResponse;
     }
 
-    private apiGet<T>(urlSegment: string): Observable<T> {
-        return this.http.get<T>(`${this.apiUrl}${urlSegment}`);
-    }
-
-    private get apiUrl(): string {
-        let apiUrl = environment.apiUrl;
-        if (!apiUrl) {
-            throw new Error('API URL is not set');
+    async getFreeDictionaryEntry(word: string): Promise<DictionaryEntry[]> {
+        const dictionary = (await db.freeDictionary.filter(d => d.word === word).toArray()) as DictionaryEntry[] | [];
+        if (dictionary.length > 0) {
+            return dictionary;
         }
-        if (!apiUrl.endsWith('/')) {
-            apiUrl += '/';
-        }
-        return apiUrl;
+        const dictionaryResponse = await lastValueFrom(this.http.get<DictionaryEntry[]>(`${this.freeDictionaryUrl}/${word}`));
+        await db.freeDictionary.bulkAdd(dictionaryResponse);
+        return dictionaryResponse;
     }
 }

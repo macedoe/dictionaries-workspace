@@ -1,13 +1,14 @@
 {
   "name": "dictionaries-workspace",
-  "version": "1.0.0-0",
+  "version": "1.0.0-2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --base-href ./ --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "publish:firebase": "firebase deploy --only hosting"
   },
   "private": true,
   "dependencies": {
