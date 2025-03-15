@@ -1,1 +1,53 @@
-<p>translation works!</p>
+<div class="translation-header">
+    <h1>English/Spanish Translation</h1>
+    <p>Enter a word to translate</p>
+</div>
+
+<form class="search-form" [formGroup]="translationService.searchForm" (ngSubmit)="translationService.search()">
+    <div class="search-controls">
+        <mat-form-field appearance="outline">
+            <mat-label>Search Word</mat-label>
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput formControlName="searchInput" />
+            @if (translationService.searchForm.get('searchInput')?.value) {
+                <mat-icon matSuffix (click)="translationService.clearSearchInput()">close</mat-icon>
+            }
+            @if (translationService.searchForm.get('searchInput')?.hasError('required')) {
+                <mat-error>Word is required</mat-error>
+            }
+            @if (translationService.searchForm.get('searchInput')?.hasError('tooManyTerms')) {
+                <mat-error>Too many terms</mat-error>
+            }
+        </mat-form-field>
+
+        <button mat-raised-button type="submit" [disabled]="!translationService.searchForm.valid">Search</button>
+    </div>
+
+    @if (translationService.translationData()) {
+        @for (entry of translationService.translationData(); track $index) {
+            <mat-card class="search-results" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h3 [innerHTML]="translationService.parseTranslationId(entry.id)"></h3>
+                    </mat-card-title>
+                    <mat-card-subtitle>
+                        <h3>{{ entry.partOfSpeech }}</h3>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <h4>Definitions</h4>
+                    <div class="definitions-list">
+                        @for (definition of entry.definitions; track $index) {
+                            <p>
+                                <sup>
+                                    <b>{{ $index + 1 }}</b>
+                                </sup>
+                                {{ definition }}
+                            </p>
+                        }
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        }
+    }
+</form>

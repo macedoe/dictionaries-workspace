@@ -58,7 +58,7 @@ export class DictionaryService {
         if (thesaurusEntries.length || 0 > 0) {
             return thesaurusEntries;
         }
-        const thesaurusResponse = await lastValueFrom(this.apiGet<ThesaurusResponse[]>(`thesaurus/${word}`));
+        const thesaurusResponse = await lastValueFrom(this.apiGet<ThesaurusResponse[]>(`mw/thesaurus/${word}`));
         await db.words.bulkAdd(thesaurusResponse);
         return thesaurusResponse;
     }
@@ -68,7 +68,11 @@ export class DictionaryService {
         if (translations.length > 0) {
             return translations;
         }
-        const translationResponse = await lastValueFrom(this.apiGet<TranslationResponse[]>(`spanish/${word}`));
+        const translationResponse = await lastValueFrom(this.apiGet<TranslationResponse[]>(`mw/spanish/${word}`));
+        if (!Array.isArray(translationResponse) || translationResponse.length === 0) {
+            this.alertService.show('No Spanish translation found');
+            return [];
+        }
         await db.translations.bulkAdd(translationResponse);
         return translationResponse;
     }
