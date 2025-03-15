@@ -30,9 +30,13 @@ import { ThemeService } from '../../services';
 })
 export class SimpleNavComponent {
     private breakpointObserver = inject(BreakpointObserver);
-    public themeService = inject(ThemeService);
+    private themeService = inject(ThemeService);
 
     title = 'Simple Language App';
+
+    get isDarkTheme(): boolean {
+        return this.themeService.isDarkTheme();
+    }
 
     isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
         map(result => result.matches),

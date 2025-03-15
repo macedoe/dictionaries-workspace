@@ -3,13 +3,15 @@ import { inject, Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { db } from '../data/db';
-import { DictionaryEntry, ThesaurusResponse, TranslationResponse } from '../interfaces';
+import { ThesaurusResponse, TranslationResponse } from '../interfaces';
+import { AlertService } from './alert.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DictionaryService {
     private http = inject(HttpClient);
+    private alertService = inject(AlertService);
 
     private get apiUrl(): string {
         let apiUrl = environment.apiUrl;
@@ -22,19 +24,13 @@ export class DictionaryService {
         return apiUrl;
     }
 
-    private get freeDictionaryUrl(): string {
-        let freeDictionaryUrl = environment.freeDictionaryApi.url;
-        if (!freeDictionaryUrl) {
-            throw new Error('Free Dictionary URL is not set');
-        }
-        if (!freeDictionaryUrl.endsWith('/')) {
-            freeDictionaryUrl += '/';
-        }
-        return freeDictionaryUrl;
-    }
-
     private apiGet<T>(urlSegment: string): Observable<T> {
-        return this.http.get<T>(`${this.apiUrl}${urlSegment}`);
+        try {
+            return this.http.get<T>(`${this.apiUrl}${urlSegment}`);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return new Observable<T>();
+        }
     }
 
     async getAllThesaurusEntries(limit: number = 0): Promise<ThesaurusResponse[]> {
@@ -83,17 +79,11 @@ export class DictionaryService {
             return dictionary;
         }
         const dictionaryResponse = await lastValueFrom(this.apiGet<ThesaurusResponse[]>(`dictionary/${word}`));
-        await db.dictionary.bulkAdd(dictionaryResponse);
-        return dictionaryResponse;
-    }
-
-    async getFreeDictionaryEntry(word: string): Promise<DictionaryEntry[]> {
-        const dictionary = (await db.freeDictionary.filter(d => d.word === word).toArray()) as DictionaryEntry[] | [];
-        if (dictionary.length > 0) {
-            return dictionary;
+        if (!Array.isArray(dictionaryResponse) || dictionaryResponse.length === 0) {
+            this.alertService.show('No dictionary entry found');
+            return [];
         }
-        const dictionaryResponse = await lastValueFrom(this.http.get<DictionaryEntry[]>(`${this.freeDictionaryUrl}/${word}`));
-        await db.freeDictionary.bulkAdd(dictionaryResponse);
+        await db.dictionary.bulkAdd(dictionaryResponse);
         return dictionaryResponse;
     }
 }
