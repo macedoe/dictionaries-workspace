@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "publish:firebase": "firebase deploy --only hosting"
+    "publish:firebase": "ng build --base-href ./ --configuration production && firebase deploy --only hosting"
   },
   "private": true,
   "dependencies": {
