@@ -21,16 +21,16 @@
     flex-wrap: wrap;
     gap: 10px;
     justify-content: flex-start;
-}
 
-.dictionary-history-list a {
-    z-index: 0;
-    @include mat.button-overrides(
-        (
-            text-label-text-size: 16px,
-            text-container-height: 24px
+    a {
+        z-index: 0;
+        @include mat.button-overrides(
+            (
+                text-label-text-size: 16px,
+                text-container-height: 24px
+            )
         )
-    )
+    };
 }
 
 .load-more-definitions {
