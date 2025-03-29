@@ -4,17 +4,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { TranslationResponse } from '../../../common/interfaces';
 import { DictionaryService } from '../../../common/services';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class TranslationService {
     private dictionaryService = inject(DictionaryService);
     private formBuilder = inject(FormBuilder);
     private htmlParser = inject(DomSanitizer);
 
-    searchForm: FormGroup = this.formBuilder.group({
-        searchInput: ['', Validators.required]
-    });
+    searchForm: FormGroup = this.formBuilder.group({ searchInput: ['', Validators.required] });
 
     translationData = signal<TranslationResponse[]>([]);
 

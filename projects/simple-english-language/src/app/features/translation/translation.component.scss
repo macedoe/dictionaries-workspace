@@ -20,16 +20,16 @@
         flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
-    
+
         > * {
             flex: 1 1 auto;
         }
-    
+
         mat-form-field {
             width: 100%;
             margin-top: 0.3rem;
         }
-    
+
         > button {
             width: 100%;
             margin-top: 0.3rem;
@@ -46,7 +46,7 @@
                 list-item-one-line-container-height: 5rem
             )
         );
-    
+
         a {
             z-index: 0;
             @include mat.button-overrides(
@@ -55,21 +55,21 @@
                 )
             );
         }
-    
+
         .mat-mdc-card-title {
             h3 {
                 margin: 5px auto;
             }
         }
-    
+
         h4 {
             margin: 0;
         }
-    
+
         .mat-mdc-button {
             justify-content: left !important;
         }
-    
+
         .definitions-list {
             padding-left: 10px;
         }
